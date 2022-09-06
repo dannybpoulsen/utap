@@ -190,6 +190,10 @@ void XMLWriter::location(const state_t& state)
     if (!state.invariant.empty()) {
         label("invariant", state.invariant.toString(), x + 8, y + 24);
     }
+    if (!state.exponentialRate.empty ()) {
+        label("exponentialrate", state.exponentialRate.toString(), x + 8, y + 24);
+    
+    }
     // "committed" or "urgent" element
     if (state.uid.getType().is(COMMITTED)) {
         startElement("committed");
