@@ -110,6 +110,8 @@ void ExpressionBuilder::typeDuplicate() { typeFragments.duplicate(); }
 
 void ExpressionBuilder::typePop() { typeFragments.pop(); }
 
+void ExpressionBuilder::typePush(type_t t) { typeFragments.push(t); }
+
 void ExpressionBuilder::typeBool(PREFIX prefix)
 {
     type_t type = type_t::createPrimitive(Constants::BOOL, position);

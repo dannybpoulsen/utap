@@ -140,6 +140,7 @@ namespace UTAP
         void handleError(const TypeException&) override;
         void handleWarning(const TypeException&) override;
         void typeDuplicate() override;
+        void typePush(type_t) ;
         void typePop() override;
         void typeBool(PREFIX) override;
         void typeInt(PREFIX) override;
