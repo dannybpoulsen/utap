@@ -100,7 +100,7 @@ type_t ExpressionBuilder::applyPrefix(PREFIX prefix, type_t type)
         return type.createPrefix(SYSTEM_META, position);
     case PREFIX_URGENT: return type.createPrefix(URGENT, position);
     case PREFIX_BROADCAST: return type.createPrefix(BROADCAST, position);
-    case PREFIX_URGENT_BROADCAST: return type.createPrefix(URGENT, position).createPrefix(BROADCAST, position);
+    case PREFIX_URGENT_BROADCAST: return type.createPrefix(BROADCAST, position).createPrefix(URGENT, position);
     case PREFIX_HYBRID: return type.createPrefix(HYBRID, position);
     default: return type;
     }
