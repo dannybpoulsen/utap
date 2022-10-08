@@ -100,7 +100,7 @@ bool DoWhileStatement::returns() { return stat->returns(); }
 
 string DoWhileStatement::toString(const string& prefix) const
 {
-    return prefix + "do {\n" + stat->toString(prefix + INDENT) + prefix + "}";
+    return prefix + "do {\n" + stat->toString(prefix + INDENT) + prefix + "}while("+cond.toString ()+");";
 }
 
 void BlockStatement::push_stat(std::unique_ptr<Statement> stat)
