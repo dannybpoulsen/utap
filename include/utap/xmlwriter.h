@@ -57,9 +57,11 @@ namespace UTAP
         void writeAttribute(const char* name, const char* value);
         void writeString(const char* content);
         void xmlwriteString(const xmlChar* content);
-
+        void writeBranchAttributes(const branchpoint_t& state);
+        
         void taTempl(const template_t& templ);
         void location(const state_t& state);
+        void branchpoint(const branchpoint_t& state);
         void init(const template_t& templ);
         void name(const state_t& state, int x, int y);
         void writeStateAttributes(const state_t& state, int x, int y);
