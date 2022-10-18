@@ -330,6 +330,11 @@ void XMLWriter::labels(int x, int y, const edge_t& edge)
     if (!edge.assign.empty()) {
         label("assignment", edge.assign.toString(), x, y + 16);
     }
+
+    if (!edge.prob.empty()) {
+        label("probability", edge.prob.toString(), x, y + 16);
+    }
+    
 }
 
 /** writes a template */
