@@ -23,6 +23,7 @@
 
 #include "utap/expression.h"
 
+#include <sstream>
 #include <cassert>
 
 using std::string;
@@ -558,6 +559,25 @@ string type_t::toString() const
     return str;
 }
 
+type_t findBaseTypeOfArray (type_t arr) {
+    if (arr.getSub ().isArray ()) {
+        return findBaseTypeOfArray(arr.getSub ());
+    }
+
+    else {
+        return arr.getSub ();
+    }
+}
+
+string sizeSequence (type_t arr,std::stringstream& str) {
+    
+    str << "[" << arr.getArraySize().getRange().second.get(0).toString() <<"]";
+    if (arr.getSub ().isArray ())
+        return sizeSequence (arr.getSub (),str);
+    else
+        return str.str ();
+}
+
 string type_t::toDeclarationString() const
 {
     auto kind = std::string();
@@ -660,10 +680,10 @@ string type_t::toDeclarationString() const
             str += get(1).toDeclarationString();
         }
     } else if (array) {
-        str += get(0).toDeclarationString();
-        str += "[";
-        str += getArraySize().getRange().second.get(0).toString();
-        str += "]";
+        std::stringstream strr;
+        type_t base = findBaseTypeOfArray (*this); 
+        str += base.toDeclarationString ();
+        str += sizeSequence (*this,strr);
     } else if (label) {
         str += getLabel(0);
     } else if (typeDef) {
