@@ -105,12 +105,12 @@ string variable_t::toString() const
     string str = "";
     string type = "";
     if (uid.getType().isArray()) {
-        type = uid.getType().toDeclarationString();
-        size_t i = type.find('[');
-        str += type.substr(0, (int)i);
+        std::stringstream strr;
+        type_t ty= uid.getType();
+        str += findBaseTypeOfArray (ty).toDeclarationString ();
         str += " ";
         str += uid.getName();
-        str += type.substr((int)i, type.size() - (int)i);
+        str += sizeSequence (ty,strr);
     } else {
         str += uid.getType().toDeclarationString() + " " + uid.getName();
     }

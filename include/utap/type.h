@@ -28,6 +28,7 @@
 
 #include <memory>  // shared_ptr
 #include <string>
+#include <sstream>
 #include <cstdint>
 
 namespace UTAP
@@ -91,6 +92,7 @@ namespace UTAP
        - REF; a reference - the first child is the type from which the
          reference type is formed.
     */
+
     class type_t
     {
     private:
@@ -387,6 +389,11 @@ namespace UTAP
         /** Creates a new lsc instance type */
         static type_t createLscInstance(frame_t, position_t = position_t());
     };
+    
+    
+    type_t findBaseTypeOfArray (type_t arr);
+    std::string sizeSequence (type_t arr,std::stringstream& str);
+    
 }  // namespace UTAP
 
 std::ostream& operator<<(std::ostream& o, const UTAP::type_t& t);

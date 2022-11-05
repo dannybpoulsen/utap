@@ -559,7 +559,7 @@ string type_t::toString() const
     return str;
 }
 
-type_t findBaseTypeOfArray (type_t arr) {
+type_t UTAP::findBaseTypeOfArray (type_t arr) {
     if (arr.getSub ().isArray ()) {
         return findBaseTypeOfArray(arr.getSub ());
     }
@@ -569,7 +569,7 @@ type_t findBaseTypeOfArray (type_t arr) {
     }
 }
 
-string sizeSequence (type_t arr,std::stringstream& str) {
+string UTAP::sizeSequence (type_t arr,std::stringstream& str) {
     
     str << "[" << arr.getArraySize().getRange().second.get(0).toString() <<"]";
     if (arr.getSub ().isArray ())

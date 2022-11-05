@@ -205,6 +205,20 @@ void XMLWriter::location(const state_t& state)
     endElement();  // end of the "location" element
 }
 
+void XMLWriter::writeBranchAttributes(const branchpoint_t& state)
+{
+    int32_t id = state.bpNr;
+    writeAttribute("id", concat("bid", id).c_str());
+}
+
+/* writes a location */
+void XMLWriter::branchpoint(const branchpoint_t& branch)
+{
+    startElement("branchpoint");
+    writeBranchAttributes(branch);
+    endElement();  
+}
+
 /* writes the init tag */
 void XMLWriter::init(const template_t& templ)
 {
@@ -217,8 +231,15 @@ void XMLWriter::init(const template_t& templ)
 /* writes the source of the given edge */
 int XMLWriter::source(const edge_t& edge)
 {
-    int loc = edge.src->locNr;
-    const auto id = concat("id", loc);
+    int loc = 0;
+    std::string suff = "id";
+    if (edge.src) 
+        loc = edge.src->locNr;
+    else {
+        loc = edge.srcb->bpNr;
+        suff = "bid";
+    }
+    const auto id = concat(suff, loc);
     startElement("source");
     writeAttribute("ref", id.c_str());
     endElement();
@@ -228,8 +249,15 @@ int XMLWriter::source(const edge_t& edge)
 /* writes the target of the given edge */
 int XMLWriter::target(const edge_t& edge)
 {
-    int loc = edge.dst->locNr;
-    const auto id = concat("id", loc);
+    int loc = 0;
+    std::string suff = "id";
+    if (edge.dst) 
+        loc = edge.dst->locNr;
+    else {
+        loc = edge.dstb->bpNr;
+        suff = "bid";
+    }
+    const auto id = concat(suff, loc);
     startElement("target");
     writeAttribute("ref", id.c_str());
     endElement();
@@ -302,6 +330,11 @@ void XMLWriter::labels(int x, int y, const edge_t& edge)
     if (!edge.assign.empty()) {
         label("assignment", edge.assign.toString(), x, y + 16);
     }
+
+    if (!edge.prob.empty()) {
+        label("probability", edge.prob.toString(), x, y + 16);
+    }
+    
 }
 
 /** writes a template */
@@ -326,6 +359,11 @@ void XMLWriter::taTempl(const template_t& templ)
         location(*s_itr);
         selfLoops.insert(std::pair<int, int>(s_itr->locNr, 0));
     }
+
+    for (auto itr = templ.branchpoints.begin(); itr != templ.branchpoints.end(); ++itr) {
+        branchpoint(*itr);
+    }
+    
     // initial location
     init(templ);
     // transitions

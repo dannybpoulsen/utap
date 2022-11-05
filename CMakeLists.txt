@@ -21,9 +21,9 @@ add_compile_definitions(MODELS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/test/models")
 find_package(FLEX 2.6.4 REQUIRED)
 find_package(BISON 3.6.0 REQUIRED)
 if (${CMAKE_SYSTEM_NAME} STREQUAL Darwin)
-    find_package(LibXml2) # otherwise cmake shows warnings
+    find_package(LibXml2 ) # otherwise cmake shows warnings
 else()
-    find_package(libxml2) # otherwise linking fails for win64
+    find_package(libxml2 ) # otherwise linking fails for win64
 endif()
 #message(STATUS "Found LIBXML2 ${LIBXML2_LIBRARIES}")
 #message(STATUS "Using LIBXML2_INCLUDE_DIR=${LIBXML2_INCLUDE_DIR}")
