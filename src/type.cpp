@@ -1,5 +1,4 @@
 // -*- mode: C++; c-file-style: "stroustrup"; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-
 /* libutap - Uppaal Timed Automata Parser.
    Copyright (C) 2002-2006 Uppsala University and Aalborg University.
 
@@ -544,7 +543,7 @@ string type_t::toString() const
     }
 
     auto str = std::string("(");
-
+    
     str += kind;
     for (uint32_t i = 0; i < size(); i++) {
         str += " ";
@@ -585,6 +584,7 @@ string type_t::toDeclarationString() const
     auto array = false;
     auto label = false;
     auto typeDef = false;
+    auto record = false;
 
     if (data == NULL) {
         return "unknown";
@@ -607,7 +607,7 @@ string type_t::toDeclarationString() const
         array = true;
         break;
 
-    case Constants::RECORD: kind = "struct"; break;
+    case Constants::RECORD: record = true; kind = "struct"; break;
 
     case Constants::CONSTANT: kind = "const"; break;
 
@@ -692,6 +692,19 @@ string type_t::toDeclarationString() const
         str += get(0).toDeclarationString();
         str += " ";
         str += getLabel(0);
+    }
+    else if (record) {
+        str += kind + "{";
+        for (uint32_t i = 0; i < size(); i++) {
+            str += " ";
+            if (!getLabel(i).empty()) {
+                str += get(i).toDeclarationString();
+                str += " ";
+                str += getLabel(i);
+                str += ";";
+            }
+        }
+        str +="}";
     } else {
         str += kind;
         for (uint32_t i = 0; i < size(); i++) {
@@ -702,6 +715,7 @@ string type_t::toDeclarationString() const
             }
             str += get(i).toDeclarationString();
         }
+        
     }
     return str;
 }
