@@ -1441,11 +1441,14 @@ void expression_t::toString(bool old, char*& str, char*& end, int& size) const
     case DEADLOCK: append(str, end, size, "deadlock"); break;
 
     case LIST:
+        append(str, end, size, "{");
         get(0).toString(old, str, end, size);
         for (uint32_t i = 1; i < getSize(); i++) {
             append(str, end, size, ", ");
             get(i).toString(old, str, end, size);
         }
+        append(str, end, size, "}");
+        
         break;
 
     case FUNCALL:
