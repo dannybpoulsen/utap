@@ -315,10 +315,13 @@ void XMLWriter::labels(int x, int y, const edge_t& edge)
 {
     string str;
     if (edge.select.getSize() > 0) {
-        str = edge.select[0].getName() + " : ";
-        if (edge.select[0].getType().size() > 0 && edge.select[0].getType()[0].size() > 0) {
-            str += edge.select[0].getType()[0].getLabel(0);
-        }  // else ? should not happen
+        bool first = true;
+        for (auto& t : edge.select) {
+            if (!first)
+                str +=",";
+            first = false;
+            str += t.getName () +" : " + t.getType ().toDeclarationString ();
+        }
         label("select", str, x, y - 32);
     }
     if (!edge.guard.empty()) {
