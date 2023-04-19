@@ -611,7 +611,7 @@ string type_t::toDeclarationString() const
 
     case Constants::CONSTANT: kind = "const"; break;
 
-    case Constants::REF: kind = "ref"; break;
+    case Constants::REF: break;//kind = "ref"; break;
 
     case Constants::URGENT: kind = "urgent"; break;
 
@@ -717,6 +717,8 @@ string type_t::toDeclarationString() const
         }
         
     }
+    if (getKind () == UTAP::Constants::REF)
+        str += "&";
     return str;
 }
 
